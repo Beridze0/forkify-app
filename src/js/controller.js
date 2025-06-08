@@ -30,12 +30,17 @@ const renderSpinner = function (parentEl) {
   parentEl.insertAdjacentHTML('afterbegin', markup);
 };
 
-const showRepice = async function () {
+const showRecipe = async function () {
   try {
+    const id = window.location.hash.slice(1);
+    console.log(id);
+
+    if (!id) return;
+
     // 1) Loading recipe
     renderSpinner(recipeContainer);
     const res = await fetch(
-      `https://forkify-api.jonas.io/api/v2/recipes/5ed6604591c37cdc054bc886`
+      `https://forkify-api.jonas.io/api/v2/recipes/${id}`
     );
     const data = await res.json();
     console.log(data);
@@ -167,4 +172,9 @@ const showRepice = async function () {
   }
 };
 
-showRepice();
+// Instead of doing this
+// window.addEventListener('hashchange', showRecipe);
+// window.addEventListener('load', showRecipe);
+
+// Do this
+['hashchange', 'load'].forEach(ev => window.addEventListener(ev, showRecipe));

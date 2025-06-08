@@ -695,11 +695,14 @@ const renderSpinner = function(parentEl) {
     parentEl.innerHTML = '';
     parentEl.insertAdjacentHTML('afterbegin', markup);
 };
-const showRepice = async function() {
+const showRecipe = async function() {
     try {
+        const id = window.location.hash.slice(1);
+        console.log(id);
+        if (!id) return;
         // 1) Loading recipe
         renderSpinner(recipeContainer);
-        const res = await fetch(`https://forkify-api.jonas.io/api/v2/recipes/5ed6604591c37cdc054bc886`);
+        const res = await fetch(`https://forkify-api.jonas.io/api/v2/recipes/${id}`);
         const data = await res.json();
         console.log(data);
         if (!res.ok) throw new Error(`${data.message} (${res.status})`);
@@ -815,7 +818,14 @@ const showRepice = async function() {
         alert(err);
     }
 };
-showRepice();
+// Instead of doing this
+// window.addEventListener('hashchange', showRecipe);
+// window.addEventListener('load', showRecipe);
+// Do this
+[
+    'hashchange',
+    'load'
+].forEach((ev)=>window.addEventListener(ev, showRecipe));
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","url:../img/icons.svg":"fd0vu","core-js/modules/web.immediate.js":"bzsBv","regenerator-runtime/runtime":"f6ot0"}],"jnFvT":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
