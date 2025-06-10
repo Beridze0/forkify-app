@@ -31,6 +31,7 @@ const controlRecipes = async function () {
   }
 };
 
+// run as startss
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
 };
