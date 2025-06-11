@@ -689,8 +689,10 @@ const controlRecipes = async function() {
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
     } catch (err) {
         console.log(err);
+        (0, _recipeViewJsDefault.default).renderError();
     }
 };
+// run as startss
 const init = function() {
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
 };
@@ -2593,6 +2595,7 @@ const loadRecipe = async function(id) {
     } catch (err) {
         // Temp error handling
         console.error(`${err} ********`);
+        throw err;
     }
 };
 
@@ -2631,7 +2634,7 @@ const getJSON = async function(url) {
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","regenerator-runtime":"f6ot0","./config.js":"2hPh4"}],"3wx5k":[function(require,module,exports,__globalThis) {
+},{"regenerator-runtime":"f6ot0","./config.js":"2hPh4","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"3wx5k":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _iconsSvg = require("url:../../img/icons.svg"); // Parcel1
@@ -2639,6 +2642,8 @@ var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class RecipeView {
     #parentElement = document.querySelector('.recipe');
     #data;
+    #errorMessage = 'We could not find that recipe. Please try another one!';
+    #message = '';
     render(data) {
         this.#data = data;
         const markup = this.#generateMarkup();
@@ -2656,7 +2661,35 @@ class RecipeView {
             </svg>
           </div>
     `;
-        this.#parentElement.innerHTML = '';
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+    }
+    renderError(message = this.#errorMessage) {
+        const markup = `
+        <div class="error">
+            <div>
+              <svg>
+                <use href="${(0, _iconsSvgDefault.default)}#icon-alert-triangle"></use>
+              </svg>
+            </div>
+            <p>${message}</p>
+          </div>
+    `;
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+    }
+    renderMessage(message = this.#message) {
+        const markup = `
+        <div class="message">
+            <div>
+              <svg>
+                <use href="${(0, _iconsSvgDefault.default)}#icon-smile"></use>
+              </svg>
+            </div>
+            <p>${message}</p>
+          </div>
+    `;
+        this.#clear();
         this.#parentElement.insertAdjacentHTML('afterbegin', markup);
     }
     addHandlerRender(handler) {
