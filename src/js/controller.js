@@ -2,11 +2,15 @@ import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import recipeView from './views/recipeView.js';
 
 // import icons from '../img/icons.svg'; // Parcel1
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import recipeView from './views/recipeView.js';
+
+if (module.hot) {
+  module.hot.accept();
+}
 
 const recipeContainer = document.querySelector('.recipe');
 
@@ -45,7 +49,6 @@ const controlSearchResults = async function () {
     await model.loadSearchResults(query);
 
     // 3. Render results
-    console.log(model.state.search.result);
     resultsView.render(model.state.search.result);
   } catch (err) {
     console.log(err);
