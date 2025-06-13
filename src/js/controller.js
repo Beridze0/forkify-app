@@ -1,6 +1,7 @@
 import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
+import resultsView from './views/resultsView.js';
 
 // import icons from '../img/icons.svg'; // Parcel1
 import 'core-js/stable';
@@ -35,6 +36,7 @@ const controlRecipes = async function () {
 
 const controlSearchResults = async function () {
   try {
+    resultsView.renderSpinner();
     // 1. Get search query
     const query = searchView.getQuery();
     if (!query) return;
@@ -44,6 +46,7 @@ const controlSearchResults = async function () {
 
     // 3. Render results
     console.log(model.state.search.result);
+    resultsView.render(model.state.search.result);
   } catch (err) {
     console.log(err);
   }
