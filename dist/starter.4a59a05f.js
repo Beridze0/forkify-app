@@ -724,7 +724,8 @@ const controlServings = function(newServings) {
     // Update the recipe servings (in state)
     _modelJs.updateServings(newServings);
     // Update the recipe view
-    (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
+    // recipeView.render(model.state.recipe);
+    (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
 };
 // run as startss
 const init = function() {
@@ -2850,11 +2851,27 @@ class View {
     _data;
     render(data) {
         if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
-        console.log(data);
         this._data = data;
         const markup = this._generateMarkup();
         this._clear();
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
+    }
+    // !!!!!!!
+    update(data) {
+        if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElements = Array.from(newDOM.querySelectorAll('*'));
+        const curElements = Array.from(this._parentElement.querySelectorAll('*'));
+        newElements.forEach((newElements, i)=>{
+            const curEl = curElements[i];
+            console.log(newElements.isEqualNode(curEl));
+            if (!newEl.isEqualNode(curEl) && newEl.firstChild?.nodeValue.trim() !== '') {
+                console.log(newEl.firstChild.nodeValue.trim());
+                curEl.textContent = newEl.textContent;
+            }
+        });
     }
     _clear() {
         this._parentElement.innerHTML = '';
