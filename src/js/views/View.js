@@ -14,22 +14,22 @@ export default class View {
   // !!!!!!!
   update(data) {
     this._data = data;
+    console.log(data, this._data);
+
     const newMarkup = this._generateMarkup();
 
     const newDOM = document.createRange().createContextualFragment(newMarkup);
     const newElements = Array.from(newDOM.querySelectorAll('*'));
     const curElements = Array.from(this._parentElement.querySelectorAll('*'));
-    newElements.forEach((newElements, i) => {
+    newElements.forEach((newEl, i) => {
       const curEl = curElements[i];
-      console.log(newElements.isEqualNode(curEl));
+      // console.log(newEl.isEqualNode(curEl));
 
       // Updates changed TEXT
       if (
         !newEl.isEqualNode(curEl) &&
-        newEl.firstChild?.nodeValue.trim() !== ''
+        newEl.firstChild?.nodeValue?.trim() !== ''
       ) {
-        console.log(newEl.firstChild.nodeValue.trim());
-
         curEl.textContent = newEl.textContent;
       }
 
