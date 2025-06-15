@@ -33,6 +33,8 @@ export const loadRecipe = async function (id) {
     else state.recipe.bookmarked = false;
 
     console.log(state.recipe);
+
+    console.log(state.recipe);
   } catch (err) {
     // Temp error handling
     console.error(`${err} ********`);
@@ -83,4 +85,10 @@ export const addBookmark = function (recipe) {
 
   // Mark current recipe as bookmark
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+};
+
+export const deleteBookmark = function (id) {
+  const index = state.bookmarks.findIndex(el => el.id === id);
+  state.bookmarks.splice(index, 1);
+  if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
 };

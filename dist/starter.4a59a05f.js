@@ -2621,6 +2621,7 @@ parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
+parcelHelpers.export(exports, "deleteBookmark", ()=>deleteBookmark);
 var _regeneratorRuntime = require("regenerator-runtime");
 var _configJs = require("./config.js");
 var _helpersJs = require("./helpers.js");
@@ -2637,19 +2638,20 @@ const state = {
 const loadRecipe = async function(id) {
     try {
         const data = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}${id}`);
-        const { recipe } = data.data;
+        const { recipe: recipe1 } = data.data;
         state.recipe = {
-            id: recipe.id,
-            title: recipe.title,
-            publisher: recipe.publisher,
-            sourceUrl: recipe.source_url,
-            image: recipe.image_url,
-            servings: recipe.servings,
-            cookingTime: recipe.cooking_time,
-            ingredients: recipe.ingredients
+            id: recipe1.id,
+            title: recipe1.title,
+            publisher: recipe1.publisher,
+            sourceUrl: recipe1.source_url,
+            image: recipe1.image_url,
+            servings: recipe1.servings,
+            cookingTime: recipe1.cooking_time,
+            ingredients: recipe1.ingredients
         };
         if (state.bookmarks.some((bookmark)=>bookmark.id === id)) state.recipe.bookmarked = true;
         else state.recipe.bookmarked = false;
+        console.log(state.recipe);
         console.log(state.recipe);
     } catch (err) {
         // Temp error handling
@@ -2688,11 +2690,16 @@ const updateServings = function(newServings) {
     });
     state.recipe.servings = newServings;
 };
-const addBookmark = function(recipe) {
+const addBookmark = function(recipe1) {
     // Add bookmark
-    state.bookmarks.push(recipe);
+    state.bookmarks.push(recipe1);
     // Mark current recipe as bookmark
-    if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+    if (recipe1.id === state.recipe.id) state.recipe.bookmarked = true;
+};
+const deleteBookmark = function(id) {
+    const index = state.bookmarks.findIndex((el)=>el.id === id);
+    state.bookmarks.splice(index, 1);
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = false;
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","regenerator-runtime":"f6ot0","./config.js":"2hPh4","./helpers.js":"7nL9P"}],"2hPh4":[function(require,module,exports,__globalThis) {
