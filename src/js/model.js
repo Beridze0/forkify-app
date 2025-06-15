@@ -10,6 +10,7 @@ export const state = {
     page: 1,
     resultsPerPage: 10,
   },
+  bookmarks: [],
 };
 
 export const loadRecipe = async function (id) {
@@ -49,6 +50,7 @@ export const loadSearchResults = async function (query) {
         image: rec.image_url,
       };
     });
+    state.search.page = 1;
   } catch (err) {
     console.error(`${err} ********`);
     throw err;
@@ -69,4 +71,8 @@ export const updateServings = function (newServings) {
   });
 
   state.recipe.servings = newServings;
+};
+
+export const addBookmark = function (recipe) {
+  state.bookmarks.push(recipe);
 };
