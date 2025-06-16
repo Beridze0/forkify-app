@@ -99,6 +99,9 @@ export const deleteBookmark = function (id) {
   if (id === state.recipe.id) state.recipe.bookmarked = false;
   persistBookmarks();
 };
+const func = function () {
+  return 'asda';
+};
 
 const init = function () {
   const storage = localStorage.getItem('bookmarks');
