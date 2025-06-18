@@ -10,6 +10,7 @@ import paginationView from './views/paginationView.js';
 // import icons from '../img/icons.svg'; // Parcel1
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import { MODAL_CLOSE_SEC } from './config.js';
 
 const recipeContainer = document.querySelector('.recipe');
 
@@ -94,7 +95,22 @@ const controlBookmarks = function () {
 
 const controlAddRecipe = async function (newRecipe) {
   try {
+    // Show loading spinner
+    addRecipeView.renderSpinner();
+
     await model.uploadRecipe(newRecipe);
+    console.log(model.state.recipe);
+
+    // Render recipe
+    recipeView.render(model.state.recipe);
+
+    // Success message
+    addRecipeView.renderMessage();
+
+    // Close form window
+    setTimeout(function () {
+      addRecipeView.toggleWindow();
+    }, MODAL_CLOSE_SEC * 1000);
   } catch (err) {
     console.error('Our own error: ', err);
     addRecipeView.renderError(err.message);
